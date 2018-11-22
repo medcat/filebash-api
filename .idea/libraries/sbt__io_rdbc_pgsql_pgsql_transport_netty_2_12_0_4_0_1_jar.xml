@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: io.rdbc.pgsql:pgsql-transport-netty_2.12:0.4.0.1:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.rdbc.pgsql/pgsql-transport-netty_2.12/jars/pgsql-transport-netty_2.12-0.4.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.rdbc.pgsql/pgsql-transport-netty_2.12/srcs/pgsql-transport-netty_2.12-0.4.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

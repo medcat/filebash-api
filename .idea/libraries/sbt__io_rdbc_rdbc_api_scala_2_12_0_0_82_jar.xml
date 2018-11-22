@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: io.rdbc:rdbc-api-scala_2.12:0.0.82:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.rdbc/rdbc-api-scala_2.12/jars/rdbc-api-scala_2.12-0.0.82.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/io.rdbc/rdbc-api-scala_2.12/srcs/rdbc-api-scala_2.12-0.0.82-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
