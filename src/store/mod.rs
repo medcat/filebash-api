@@ -3,6 +3,7 @@ use r2d2_postgres::{PostgresConnectionManager, TlsMode};
 use std::error::Error;
 
 pub(crate) mod models;
+pub(crate) mod secret;
 
 #[derive(Clone)]
 pub struct Store(r2d2::Pool<PostgresConnectionManager>);

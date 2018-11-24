@@ -1,0 +1,2 @@
+[development]
+database = "postgres://retrocat:apples@localhost/filebash_development"
