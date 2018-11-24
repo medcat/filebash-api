@@ -1,0 +1,17 @@
+[package]
+name = "filebash-api"
+version = "0.1.0"
+authors = ["Jeremy Rodi <me@retroc.at>"]
+
+[dependencies]
+log = "0.4.6"
+pretty_env_logger = "0.2.5"
+rocket = "0.4.0-rc.1"
+r2d2 = "0.8.3"
+uuid = { version = "0.5", features = ["v4", "v5", "serde"] }    # A library to generate and parse UUIDs.
+postgres-shared = { version = "0.4.2", features = ["with-uuid", "with-chrono"] }
+postgres = { version = "0.15.2", features = ["with-uuid", "with-chrono"] }
+r2d2_postgres = "0.14.0"    # Postgres support for the r2d2 connection pool
+serde = "1"
+serde_derive = "1"
+chrono = "0.4.6"
