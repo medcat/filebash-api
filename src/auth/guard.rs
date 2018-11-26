@@ -9,6 +9,15 @@ use uuid::Uuid;
 
 pub struct SessionGuard(Session, User);
 
+impl SessionGuard {
+    pub fn session(&self) -> &Session {
+        &self.0
+    }
+    pub fn user(&self) -> &User {
+        &self.1
+    }
+}
+
 #[derive(Debug)]
 pub enum SessionTokenError {
     Missing,
@@ -44,12 +53,25 @@ impl<'a, 'r> FromRequest<'a, 'r> for SessionGuard {
                 Outcome::Failure((Status::InternalServerError, SessionTokenError::BadConnect))
             }
             Outcome::Forward(_) => unreachable!(),
-            Outcome::Success(state) => match Session::find_with_user(token, &*state) {
-                Ok(Some((session, user))) => Outcome::Success(SessionGuard(session, user)),
-                Ok(None) => Outcome::Failure((Status::Unauthorized, SessionTokenError::Missing)),
-                Err(_) => Outcome::Failure((Status::Unauthorized, SessionTokenError::BadConnect)),
-            },
+            Outcome::Success(state) => find_token(state, token),
         }
+    }
+}
+
+fn find_token(
+    state: State<Store>,
+    token: Uuid,
+) -> request::Outcome<SessionGuard, SessionTokenError> {
+    match state.with_connection(|conn| Session::find_with_user(conn, token)) {
+        Ok(Some((session, user))) => {
+            if session.authenticable() {
+                Outcome::Success(SessionGuard(session, user))
+            } else {
+                Outcome::Failure((Status::Unauthorized, SessionTokenError::Missing))
+            }
+        }
+        Ok(None) => Outcome::Failure((Status::Unauthorized, SessionTokenError::Missing)),
+        Err(_) => Outcome::Failure((Status::Unauthorized, SessionTokenError::BadConnect)),
     }
 }
 

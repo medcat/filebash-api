@@ -1,10 +1,10 @@
+use crate::Result;
 use argon2::{hash_encoded, verify_encoded, Config, ThreadMode, Variant, Version};
 use rand::Rng;
 use std::borrow::Cow;
 use std::convert::{AsMut, AsRef};
-use std::error::Error;
 
-#[derive(Clone)]
+#[derive(Debug, Clone, Hash)]
 pub struct Secret<'s>(Cow<'s, str>);
 
 impl<'s> From<&'s str> for Secret<'s> {
@@ -26,8 +26,8 @@ static CONFIG: Config = Config {
 };
 
 impl<'s> Secret<'s> {
-    pub fn new<A: AsMut<[u8]>>(mut data: A) -> Result<Secret<'s>, Box<dyn Error + Send + Sync>> {
-        let mut salt: [u8; 64] = [0u8; 64];
+    pub fn new<A: AsMut<[u8]>>(mut data: A) -> Result<Secret<'s>> {
+        let mut salt: [u8; 64] = [0_u8; 64];
         rand::thread_rng().fill(&mut salt);
         let secret = Secret(Cow::Owned(hash_encoded(data.as_mut(), &salt, &CONFIG)?));
         for m in data.as_mut().iter_mut() {
@@ -36,7 +36,11 @@ impl<'s> Secret<'s> {
         Ok(secret)
     }
 
-    pub fn verify<A: AsRef<[u8]>>(&self, given: A) -> Result<bool, Box<dyn Error + Send + Sync>> {
+    pub fn verify<A: AsRef<[u8]>>(&self, given: A) -> Result<bool> {
         verify_encoded(&self.0, given.as_ref()).map_err(|e| e.into())
     }
+}
+
+impl<'s> AsRef<str> for Secret<'s> {
+    fn as_ref(&self) -> &str { self.0.as_ref() }
 }

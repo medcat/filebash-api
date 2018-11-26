@@ -5,5 +5,5 @@ mod session;
 pub use self::guard::SessionGuard;
 
 pub fn routes() -> Vec<Route> {
-    routes![session::create]
+    routes![session::create::apply, session::grant::apply]
 }
